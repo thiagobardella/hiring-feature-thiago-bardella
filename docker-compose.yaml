@@ -1,0 +1,15 @@
+version: "3.5"
+services:
+  local-mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=flash
+    networks:
+      - flash
+    volumes:
+      - ./local-db-init.js:/docker-entrypoint-initdb.d/0_init.js:ro
+networks:
+  flash:
+    name: flash
