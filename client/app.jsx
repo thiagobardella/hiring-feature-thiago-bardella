@@ -1,18 +1,37 @@
-import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Header } from "./base-components/header";
 import { PageWrapper } from "./base-components/page-wrapper";
-import { CompaniesPage } from "./pages/companies/companies.page";
-import { CreateCompanyPage } from "./pages/create-company/create-company.page";
+import { LoadableCompaniesPage } from "./pages/companies/loadable-companies.page";
+import { LoadableCompanyDetailsPage } from "./pages/company-details/loadable-company-details.page";
+import { LoadableCreateCompanyPage } from "./pages/create-company/loadable-create-company-page";
+import { LoadableCreateEmployeePage } from "./pages/create-employee/loadable-create-employee-page";
+import { LoadableEmployeeDetailsPage } from "./pages/employee-details/loadable-employee-details.page";
+import { LoadableEmployeesPage } from "./pages/employees/loadable-employees.page";
 
 export const App = () => (
   <BrowserRouter>
     <Header />
     <PageWrapper>
       <Switch>
-        <Route path="/create-company" component={() => <CreateCompanyPage />} />
-        <Route path="/companies" component={() => <CompaniesPage />} />
-
+        <Route
+          path="/create-company"
+          component={() => <LoadableCreateCompanyPage />}
+        />
+        <Route
+          path="/create-employee"
+          component={() => <LoadableCreateEmployeePage />}
+        />
+        <Route
+          path="/companies/:companyId"
+          component={() => <LoadableCompanyDetailsPage />}
+        />
+        <Route
+          path="/employees/:employeeId"
+          component={() => <LoadableEmployeeDetailsPage />}
+        />
+        <Route path="/companies" component={() => <LoadableCompaniesPage />} />
+        <Route path="/employees" component={() => <LoadableEmployeesPage />} />
         <Redirect to="/companies" />
       </Switch>
     </PageWrapper>

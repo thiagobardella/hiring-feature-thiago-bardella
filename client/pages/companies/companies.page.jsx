@@ -1,10 +1,11 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Companies } from "./companies.styles";
+import { Col, message, Row, Skeleton, Tag } from "antd";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button } from "../../base-components/button";
+import { List } from "../../base-components/list";
 import { PageTitle } from "../../base-components/page-title";
-import { Row, Col, message } from "antd";
+import { BenefitLabels } from "../../constants";
 import { GET_ALL_COMPANIES } from "../../graphql/queries";
 
 const columns = [
@@ -34,20 +35,28 @@ const columns = [
     title: "Benefícios",
     dataIndex: "chosenBenefits",
     key: "chosenBenefits",
-    render: (benefits) => <>{benefits.join(", ")}</>,
+    render: (benefits) => (
+      <>
+        {benefits.map((benefit) => (
+          <Tag key={benefit}>{BenefitLabels[benefit]}</Tag>
+        ))}
+      </>
+    ),
   },
 ];
 
-export const CompaniesPage = () => {
+const CompaniesPage = () => {
   const history = useHistory();
 
-  const { loading: companiesLoading, data: companiesData } = useQuery(
-    GET_ALL_COMPANIES,
-    {
-      fetchPolicy: "cache-and-network",
-      onError: (err) => message.error(err.message),
-    }
-  );
+  const {
+    loading: companiesLoading,
+    data: companiesData,
+    fetchMore,
+  } = useQuery(GET_ALL_COMPANIES, {
+    fetchPolicy: "cache-and-network",
+    onError: (err) => message.error(err.message),
+  });
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const handleRowClick = (record) => (_event) => {
     history.push(`/companies/${record.id}`);
@@ -63,9 +72,17 @@ export const CompaniesPage = () => {
     history.push(`/create-company`);
   };
 
+  const handlePageChange = async (page) => {
+    await fetchMore({
+      variables: {
+        offset: (page - 1) * 6,
+      },
+    });
+  };
+
   return (
     <>
-      <Row align="middle" gutter={[0, 24]}>
+      <Row align="middle" gutter={[24, 24]}>
         <Col>
           <PageTitle>Empresas</PageTitle>
         </Col>
@@ -79,16 +96,26 @@ export const CompaniesPage = () => {
           </Button>
         </Col>
         <Col span={24}>
-          <Companies
-            loading={companiesLoading}
-            pagination={{ pageSize: 6 }}
-            rowKey={(record) => record.id}
-            columns={columns}
-            dataSource={companiesData?.getAllCompanies ?? []}
-            onRow={handleRow}
-          />
+          {isLoadingMore ? (
+            <Skeleton active />
+          ) : (
+            <List
+              loading={companiesLoading}
+              pagination={{
+                pageSize: 6,
+                hideOnSinglePage: true,
+                onChange: handlePageChange,
+              }}
+              rowKey={(record) => record.id}
+              columns={columns}
+              dataSource={companiesData?.getAllCompanies ?? []}
+              onRow={handleRow}
+            />
+          )}
         </Col>
       </Row>
     </>
   );
 };
+
+export default CompaniesPage;
