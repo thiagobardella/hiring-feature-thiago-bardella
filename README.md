@@ -29,6 +29,12 @@ yarn client
 
 The client will start on `http://localhost:1234`
 
+Jest - tests may be run by:
+
+```shell
+yarn test
+```
+
 ## BUGS
 
 - Main "app" div without id - client/index.html - line 8
