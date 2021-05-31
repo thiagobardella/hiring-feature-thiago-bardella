@@ -72,7 +72,7 @@ export const CompaniesPage = () => {
         <Col>
           <Button
             type="primary"
-            onCLick={handleCreateCompany}
+            onClick={handleCreateCompany}
             color="secondary"
           >
             Criar empresa
