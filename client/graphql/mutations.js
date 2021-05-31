@@ -16,11 +16,43 @@ export const CREATE_COMPANY = gql`
       chosenBenefits: $chosenBenefits
     ) {
       id
+    }
+  }
+`;
+
+export const UPDATE_COMPANY = gql`
+  mutation UpdateCompany(
+    $companyId: String!
+    $employeeIds: [String]
+  ) {
+    addEmployees(
+      companyId: $companyId
+      employeeIds: $employeeIds
+    ) {
       name
       cnpj
-      tradingName
-      address
-      chosenBenefits
+    }
+  }
+`;
+
+export const CREATE_EMPLOYEE = gql`
+  mutation CreateEmployee(
+    $name: String!
+    $cpf: String!
+    $address: String!
+    $phone: String!
+    $chosenBenefits: [String!]!
+    $companies: [String]
+  ) {
+    createEmployee(
+      name: $name
+      cpf: $cpf
+      address: $address
+      phone: $phone
+      chosenBenefits: $chosenBenefits
+      companies: $companies
+    ) {
+      id
     }
   }
 `;
