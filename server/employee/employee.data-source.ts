@@ -17,7 +17,7 @@ export class EmployeesAPI extends DataSource {
       employeesList.find((employee) => employee.id === id)
     );
   });
-  
+
   async getAllEmployees() {
     return this.employeeModel.find();
   }
@@ -31,7 +31,7 @@ export class EmployeesAPI extends DataSource {
   }
 
   async createEmployee(args: IEmployee) {
-    const employee = this.employeeModel.create(args);
+    const employee = await this.employeeModel.create(args);
     this.employeesLoader.clearAll();
     return employee;
   }
