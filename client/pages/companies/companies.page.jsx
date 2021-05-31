@@ -44,7 +44,7 @@ export const CompaniesPage = () => {
   const { loading: companiesLoading, data: companiesData } = useQuery(
     GET_ALL_COMPANIES,
     {
-      fetchPolicy: "cache-only",
+      fetchPolicy: "cache-and-network",
       onError: (err) => message.error(err.message),
     }
   );
