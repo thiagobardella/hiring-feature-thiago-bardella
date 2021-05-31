@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Table } from "antd";
 
-export const Companies = styled(Table)`
+export const List = styled(Table)`
   && {
     border-radius: 2px;
     padding: 16px;

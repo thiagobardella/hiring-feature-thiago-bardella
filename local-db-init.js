@@ -7,7 +7,7 @@ const companiesFixtures = [
     address: "Rua Tutoia, 1157",
   },
   {
-    chosenBenefits: ["vr", "vt", "gymPass"],
+    chosenBenefits: ["vr", "vt", "gympass"],
     name: "Flash App Flash Tecnologia e Pagamentos Ltda.",
     tradingName: "Flash App",
     cnpj: "32.223.020/0001-18",

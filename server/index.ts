@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
-import { dbConnect } from "./database.js";
-import { apolloServer } from "./graphql/apollo-server.js";
+import { dbConnect } from "./database";
+import { apolloServer } from "./graphql/apollo-server";
 
 dotenv.config();
 

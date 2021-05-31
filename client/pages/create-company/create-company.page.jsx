@@ -5,23 +5,10 @@ import { Body } from "./create-company.styles";
 import { Button } from "../../base-components/button";
 import { PageTitle } from "../../base-components/page-title";
 import { CREATE_COMPANY } from "../../graphql/mutations";
+import MaskedInput from "antd-mask-input";
+import { BenefitLabels, Benefits } from "../../constants";
 
-const benefits = [
-  {
-    label: "VR",
-    value: "vr",
-  },
-  {
-    label: "VT",
-    value: "vt",
-  },
-  {
-    label: "GymPass",
-    value: "gymPass",
-  },
-];
-
-export const CreateCompanyPage = () => {
+const CreateCompanyPage = () => {
   const [form] = Form.useForm();
 
   const [createCompany, { loading: creating }] = useMutation(CREATE_COMPANY);
@@ -38,7 +25,7 @@ export const CreateCompanyPage = () => {
 
   return (
     <>
-      <Row justify="flex-start" align="middle" gutter={[0, 24]}>
+      <Row justify="flex-start" align="middle" gutter={[24, 24]}>
         <Col>
           <PageTitle>Nova empresa</PageTitle>
         </Col>
@@ -81,7 +68,7 @@ export const CreateCompanyPage = () => {
                       },
                     ]}
                   >
-                    <Input />
+                    <MaskedInput mask="11.111.111/1111-11" name="cnpj" />
                   </Form.Item>
                   <Form.Item
                     label="Endereço"
@@ -110,7 +97,10 @@ export const CreateCompanyPage = () => {
                       allowClear
                       style={{ width: "100%" }}
                       placeholder="Selecionar"
-                      options={benefits}
+                      options={Benefits.map((benefit) => ({
+                        label: BenefitLabels[benefit],
+                        value: benefit,
+                      }))}
                     />
                   </Form.Item>
                   <Divider />
@@ -133,3 +123,5 @@ export const CreateCompanyPage = () => {
     </>
   );
 };
+
+export default CreateCompanyPage;
